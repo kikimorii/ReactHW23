@@ -1,6 +1,7 @@
 import { useState } from "react";
+import styles from "./App.module.css";
 
-const NUMS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const NUMS = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 
 const App = () => {
     const [operand1, setOperand1] = useState("");
@@ -50,20 +51,35 @@ const App = () => {
         const number = event.target.innerText;
 
         if (!operator) {
-            if (!(operand1 === '' && number === '0')) {
+            if (!(operand1 === "" && number === "0")) {
                 setOperand1(operand1 + number);
             }
         } else {
-            if (!(operand2 === '' && number === '0')) {
+            if (!(operand2 === "" && number === "0")) {
                 setOperand2(operand2 + number);
             }
         }
     };
 
     return (
-        <>
-            <output>{operator ? operand2 : operand1}</output>
-            <ul>
+        <div className={styles.wrapper}>
+            <output className={styles.output}>
+                {operand2 ? operand2 : operand1}
+            </output>
+            <ul className={styles.numberList}>
+                <li>
+                    <button onClick={cleaningOperators} className={styles.clearButton}>C</button>
+                </li>
+                <li>
+                    <button id="additionButton" onClick={setOperatorFunc} className={styles.functionButton}>
+                        +
+                    </button>
+                </li>
+                <li>
+                    <button id="subtractionButton" onClick={setOperatorFunc} className={styles.functionButton}>
+                        -
+                    </button>
+                </li>
                 {NUMS.map((number) => {
                     return (
                         <li key={"button" + number}>
@@ -73,24 +89,11 @@ const App = () => {
                         </li>
                     );
                 })}
-                <li>
-                    <button id="additionButton" onClick={setOperatorFunc}>
-                        +
-                    </button>
-                </li>
-                <li>
-                    <button id="subtractionButton" onClick={setOperatorFunc}>
-                        -
-                    </button>
-                </li>
-                <li>
-                    <button onClick={cleaningOperators}>C</button>
-                </li>
-                <li>
-                    <button onClick={calculationResult}>=</button>
+                <li className={styles.calculation}>
+                    <button onClick={calculationResult} className={styles.functionButton}>=</button>
                 </li>
             </ul>
-        </>
+        </div>
     );
 };
 
