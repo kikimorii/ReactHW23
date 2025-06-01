@@ -1,35 +1,97 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+const NUMS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+const App = () => {
+    const [operand1, setOperand1] = useState("");
+    const [operand2, setOperand2] = useState("");
+    const [operator, setOperator] = useState("");
 
-export default App
+    const setOperatorFunc = (event) => {
+        const buttonID = event.target.id;
+
+        switch (buttonID) {
+            case "additionButton":
+                setOperator("+");
+                break;
+            case "subtractionButton":
+                setOperator("-");
+                break;
+            default:
+                setOperator("");
+                break;
+        }
+    };
+
+    const cleaningOperators = () => {
+        setOperand1("");
+        setOperand2("");
+        setOperator("");
+    };
+
+    const calculationResult = () => {
+        switch (operator) {
+            case "+":
+                setOperand1(Number(operand1) + Number(operand2));
+                setOperator("");
+                setOperand2("");
+                break;
+            case "-":
+                setOperand1(Number(operand1) - Number(operand2));
+                setOperator("");
+                setOperand2("");
+                break;
+            default:
+                break;
+        }
+    };
+
+    const addNumberToOperand = (event) => {
+        const number = event.target.innerText;
+
+        if (!operator) {
+            if (!(operand1 === '' && number === '0')) {
+                setOperand1(operand1 + number);
+            }
+        } else {
+            if (!(operand2 === '' && number === '0')) {
+                setOperand2(operand2 + number);
+            }
+        }
+    };
+
+    return (
+        <>
+            <output>{operator ? operand2 : operand1}</output>
+            <ul>
+                {NUMS.map((number) => {
+                    return (
+                        <li key={"button" + number}>
+                            <button onClick={addNumberToOperand}>
+                                {number}
+                            </button>
+                        </li>
+                    );
+                })}
+                <li>
+                    <button id="additionButton" onClick={setOperatorFunc}>
+                        +
+                    </button>
+                </li>
+                <li>
+                    <button id="subtractionButton" onClick={setOperatorFunc}>
+                        -
+                    </button>
+                </li>
+                <li>
+                    <button onClick={cleaningOperators}>C</button>
+                </li>
+                <li>
+                    <button onClick={calculationResult}>=</button>
+                </li>
+            </ul>
+        </>
+    );
+};
+
+export default App;
