@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./App.module.css";
 
 const NUMS = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 
@@ -61,9 +62,24 @@ const App = () => {
     };
 
     return (
-        <>
-            <output>{operand2 ? operand2 : operand1}</output>
-            <ul>
+        <div className={styles.wrapper}>
+            <output className={styles.output}>
+                {operand2 ? operand2 : operand1}
+            </output>
+            <ul className={styles.numberList}>
+                <li>
+                    <button onClick={cleaningOperators} className={styles.clearButton}>C</button>
+                </li>
+                <li>
+                    <button id="additionButton" onClick={setOperatorFunc} className={styles.functionButton}>
+                        +
+                    </button>
+                </li>
+                <li>
+                    <button id="subtractionButton" onClick={setOperatorFunc} className={styles.functionButton}>
+                        -
+                    </button>
+                </li>
                 {NUMS.map((number) => {
                     return (
                         <li key={"button" + number}>
@@ -73,24 +89,11 @@ const App = () => {
                         </li>
                     );
                 })}
-                <li>
-                    <button id="additionButton" onClick={setOperatorFunc}>
-                        +
-                    </button>
-                </li>
-                <li>
-                    <button id="subtractionButton" onClick={setOperatorFunc}>
-                        -
-                    </button>
-                </li>
-                <li>
-                    <button onClick={cleaningOperators}>C</button>
-                </li>
-                <li>
-                    <button onClick={calculationResult}>=</button>
+                <li className={styles.calculation}>
+                    <button onClick={calculationResult} className={styles.functionButton}>=</button>
                 </li>
             </ul>
-        </>
+        </div>
     );
 };
 
